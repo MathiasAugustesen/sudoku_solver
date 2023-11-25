@@ -23,9 +23,9 @@ lazy_static! {
 #[derive(Clone, Debug)]
 pub struct SudokuPuzzle {
     pub grid: [u8; GRID_SIZE],
-    pub rows: [[u8; GRID_DIMS]; GRID_DIMS],
-    pub blocks: [[u8; BLOCK_SIZE]; BLOCKS],
-    pub cols: [[u8; GRID_DIMS]; GRID_DIMS],
+    rows: [[u8; GRID_DIMS]; GRID_DIMS],
+    blocks: [[u8; BLOCK_SIZE]; BLOCKS],
+    cols: [[u8; GRID_DIMS]; GRID_DIMS],
     move_stack: Vec<usize>,
 }
 
@@ -83,11 +83,6 @@ impl SudokuPuzzle {
         for _ in 0..moves_to_undo {
             self.undo_move();
         }
-    }
-
-    pub fn is_pseudo_legal(&self) -> bool {
-        self.get_clueless_squares_enumerated()
-            .any(|i| !self.get_possible_clues(i).is_empty())
     }
 
     pub fn is_solved(&self) -> bool {
@@ -158,11 +153,6 @@ impl SudokuPuzzle {
     }
     pub fn moves_count(&self) -> usize {
         self.move_stack.len()
-    }
-
-    pub fn new_indexed() -> SudokuPuzzle {
-        let grid_values: Vec<u8> = (0..81).into_iter().collect();
-        SudokuPuzzle::from_array(grid_values.try_into().unwrap())
     }
 }
 
